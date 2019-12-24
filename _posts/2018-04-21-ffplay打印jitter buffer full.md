@@ -1,18 +1,17 @@
 ---
 layout: post
-title: ffplay报告jitter buffer full                                # Title of the page
+title: ffplay打印jitter buffer full                                # Title of the page
 hide_title: false                                  # Hide the title when displaying the post, but shown in lists of posts
 # feature-img: "assets/img/sample.png"              # Add a feature-image to the post
 # thumbnail: "assets/img/stb_background.png"   # Add a thumbnail image on blog view
 # color: rgb(80,140,22)                             # Add the specified color as feature image, and change link colors in post
 bootstrap: true                                   # Add bootstrap to the page
-tags: [机顶盒]
+tags: [ffmpeg, ffplay, jitter buffer]
 excerpt_separator: <!--more-->
 ---
 
 # 现象
 
-<!--more-->
 ffplay播放RTSP时控制台频繁打印：
 
 ```
@@ -21,6 +20,8 @@ RTP: missed 88 packets
 ```
 
 同时画面卡顿。
+
+<!--more-->
 
 # 分析
 
