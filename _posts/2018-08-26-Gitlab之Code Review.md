@@ -6,7 +6,7 @@ hide_title: false                                  # Hide the title when display
 # thumbnail: "assets/img/stb_background.png"   # Add a thumbnail image on blog view
 # color: rgb(80,140,22)                             # Add the specified color as feature image, and change link colors in post
 bootstrap: true                                   # Add bootstrap to the page
-tags: [gitlab, review]
+tags: [git, gitlab, review]
 excerpt_separator: <!--more-->
 ---
 
