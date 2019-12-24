@@ -12,10 +12,10 @@ excerpt_separator: <!--more-->
 
 ffplay播放RTSP流媒体时控制台频繁打印
 
-```c
+~~~c
 jitter buffer full
 RTP: missed 88 packets
-```
+~~~
 
 同时画面卡顿。
 
