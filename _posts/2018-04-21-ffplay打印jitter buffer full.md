@@ -10,11 +10,9 @@ tags: [ffmpeg, ffplay, jitter buffer]
 excerpt_separator: <!--more-->
 ---
 
-# 现象
+ffplay播放RTSP流媒体时控制台频繁打印
 
-ffplay播放RTSP时控制台频繁打印：
-
-```
+```c
 jitter buffer full
 RTP: missed 88 packets
 ```
@@ -22,12 +20,14 @@ RTP: missed 88 packets
 同时画面卡顿。
 
 <!--more-->
+* TOC
+{:toc}
 
-# 分析
+# 1. 分析
 
 找到FFMPEG 3.3.2源码[FFmpeg\libavformat\rtpdec.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtpdec.c)的`rtp_parse_one_packet`函数代码：
 
-```
+```c
 if ((s->seq == 0 && !s->queue) || s->queue_size <= 1) {
     /* First packet, or no reordering */
     return rtp_parse_packet_internal(s, pkt, buf, len);
@@ -64,7 +64,7 @@ if ((s->seq == 0 && !s->queue) || s->queue_size <= 1) {
 
 看上去是`s->queue_len >= s->queue_size`时就输出`"jitter buffer full"`，前者应该是变化的，后者是通过[rtsp.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtsp.c)中的`ff_rtsp_open_transport_ctx() -> ff_rtp_parse_open()`来设置的，`ff_rtsp_open_transport_ctx()`代码如下：
 
-```
+```c
 RTSPState *rt = s->priv_data;
 AVStream *st = NULL;
 
@@ -107,7 +107,7 @@ else if (CONFIG_RTPDEC)
 
 [rtsp.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtsp.c)开头有下面代码，表明上面第3行的`rt->reordering_queue_size`可通过命令行设置，并且初始值等于`-1`：
 
-```
+```c
 #define COMMON_OPTS() \
     { "reorder_queue_size", "set number of packets to buffer for handling of reordered packets", OFFSET(reordering_queue_size), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, DEC }, \
     { "buffer_size",        "Underlying protocol send/receive buffer size",                  OFFSET(buffer_size),           AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, DEC|ENC } \
@@ -118,7 +118,7 @@ else if (CONFIG_RTPDEC)
 
 再参考下下面代码：
 
-```
+```c
 static int has_next_packet(RTPDemuxContext *s)
 {
     return s->queue && s->queue->seq == (uint16_t) (s->seq + 1);
@@ -152,45 +152,45 @@ static int rtp_parse_queued_packet(RTPDemuxContext *s, AVPacket *pkt)
 }
 ```
 
-# 原因及对策
+# 2. 原因及对策
 
 所以发生该问题时，原因有两种：
 
-#### 1. 采用UDP传输，默认的或手动设置的`reordering_queue_size`值过小。
+#### 2.1. 采用UDP传输，默认的或手动设置的`reordering_queue_size`值过小。
 
 解决办法：继续增大`reordering_queue_size`。
 
-#### 2. 采用TCP传输，手动设置的`reordering_queue_size`值过小。
+#### 2.2. 采用TCP传输，手动设置的`reordering_queue_size`值过小。
 
 解决办法：不设置`reordering_queue_size`。
 
-# 查看`reordering_queue_size`大小
+# 3. 查看`reordering_queue_size`大小
 
-#### 1. UDP传输时`reordering_queue_size`
+#### 3.1. UDP传输时`reordering_queue_size`
 
-```
+```c
 ffmpeg -rtsp_transport udp -i rtsp://192.168.5.120:8554/desktop -loglevel verbose
 ```
 
 可看到
 
-```
+```c
 [rtsp @ 0000000000537fe0] setting jitter buffer size to 500
 ```
 
 其实就是[rtsp.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtsp.c)中的`RTP_REORDER_QUEUE_DEFAULT_SIZE`
 
-#### 2. TCP传输时`reordering_queue_size`
+#### 3.2. TCP传输时`reordering_queue_size`
 
-```
+```c
 ffmpeg -rtsp_transport tcp -i rtsp://192.168.5.120:8554/desktop -loglevel verbose
 ```
 
 可看到
-```
+```c
 [rtsp @ 0000000000647fe0] setting jitter buffer size to 0
 ```
 
-# `reordering_queue_size`的意义
+# 4. reordering_queue_size的意义
 
 根据[rtpdec.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtpdec.c)的`rtp_parse_one_packet()`，大概UDP传输RTP时会出现乱序，比如上一个RTP序号是88，新接收到RTP包序号100，此时ffplay将继续等待序号为89的RTP包而不解析序号100的包，如果现在积攒了500个RTP包，但89号包还没有到达，则打印该警告，并且解析离88最近的那个RTP包。
