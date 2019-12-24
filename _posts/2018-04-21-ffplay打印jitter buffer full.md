@@ -10,6 +10,12 @@ tags: [ffmpeg, ffplay, jitter buffer]
 excerpt_separator: <!--more-->
 ---
 
+<!--more-->
+* TOC
+{:toc}
+
+# 1. 现象
+
 ffplay播放RTSP流媒体时控制台频繁打印
 
 ~~~c
@@ -19,11 +25,7 @@ RTP: missed 88 packets
 
 同时画面卡顿。
 
-<!--more-->
-* TOC
-{:toc}
-
-# 1. 分析
+# 2. 分析
 
 找到FFMPEG 3.3.2源码[FFmpeg\libavformat\rtpdec.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtpdec.c)的`rtp_parse_one_packet`函数代码：
 
@@ -152,21 +154,21 @@ static int rtp_parse_queued_packet(RTPDemuxContext *s, AVPacket *pkt)
 }
 ```
 
-# 2. 原因及对策
+# 3. 原因及对策
 
 所以发生该问题时，原因有两种：
 
-#### 2.1. 采用UDP传输，默认的或手动设置的`reordering_queue_size`值过小。
+#### 3.1. 采用UDP传输，默认的或手动设置的`reordering_queue_size`值过小。
 
 解决办法：继续增大`reordering_queue_size`。
 
-#### 2.2. 采用TCP传输，手动设置的`reordering_queue_size`值过小。
+#### 3.2. 采用TCP传输，手动设置的`reordering_queue_size`值过小。
 
 解决办法：不设置`reordering_queue_size`。
 
-# 3. 查看`reordering_queue_size`大小
+# 4. 查看`reordering_queue_size`大小
 
-#### 3.1. UDP传输时`reordering_queue_size`
+#### 4.1. UDP传输时`reordering_queue_size`
 
 ```c
 ffmpeg -rtsp_transport udp -i rtsp://192.168.5.120:8554/desktop -loglevel verbose
@@ -180,7 +182,7 @@ ffmpeg -rtsp_transport udp -i rtsp://192.168.5.120:8554/desktop -loglevel verbos
 
 其实就是[rtsp.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtsp.c)中的`RTP_REORDER_QUEUE_DEFAULT_SIZE`
 
-#### 3.2. TCP传输时`reordering_queue_size`
+#### 4.2. TCP传输时`reordering_queue_size`
 
 ```c
 ffmpeg -rtsp_transport tcp -i rtsp://192.168.5.120:8554/desktop -loglevel verbose
@@ -191,6 +193,6 @@ ffmpeg -rtsp_transport tcp -i rtsp://192.168.5.120:8554/desktop -loglevel verbos
 [rtsp @ 0000000000647fe0] setting jitter buffer size to 0
 ```
 
-# 4. reordering_queue_size的意义
+# 5. reordering_queue_size的意义
 
 根据[rtpdec.c](https://github.com/FFmpeg/FFmpeg/blob/n3.3.2/libavformat/rtpdec.c)的`rtp_parse_one_packet()`，大概UDP传输RTP时会出现乱序，比如上一个RTP序号是88，新接收到RTP包序号100，此时ffplay将继续等待序号为89的RTP包而不解析序号100的包，如果现在积攒了500个RTP包，但89号包还没有到达，则打印该警告，并且解析离88最近的那个RTP包。
