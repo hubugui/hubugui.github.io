@@ -7,7 +7,7 @@ hide_title: false                                  # Hide the title when display
 # color: rgb(80,140,22)                             # Add the specified color as feature image, and change link colors in post
 bootstrap: true                                   # Add bootstrap to the page
 tags: [机顶盒]
-excerpt_separator: <!--more-->
+excerpt_separator: "ffplay播放RTSP时控制台频繁打印\"jitter buffer full\""
 ---
 
 
