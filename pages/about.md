@@ -8,8 +8,8 @@ tags: [About, Archive]
 
 # 我是谁
 
-1. 住在地球，以后的事说了也不算，大爆炸之前的事
-1. Code Monkey。
+1. 住在地球，偶尔想想大爆炸之前的家会在哪儿呢？
+2. Code Monkey
   * 行业：安防和数字电视领域的视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
   * 领域：桌面、Web、Android、服务端、嵌入式、单片机。
   * 玩具：C/Python/Java/PHP/C#/VB/JavaScript，Linux/Windows/Android/NUC140/Raspberry Pi, TCPIP/MPTCP/Docker/Scrapy/Redis/ZookeeperShdowSocks/Anaconda/Matplotlib, VS/QT/MingW, **《Unix程序设计艺术》(The Art of Unix Programming)**的追随者。
@@ -19,7 +19,7 @@ tags: [About, Archive]
   * 底板：Stiga 145
   * 正手：蝴蝶T05
   * 反手：蝴蝶T80
-  * ７年前开球网积分: 1591，复出乒坛一年来战胜过1700分，哼！
+  * ７年前开球网积分: 1591，复出乒坛一年来战胜过1700分
 1. 撸铁
   * 深蹲：60KG
   * 倒蹬：180KG
@@ -54,7 +54,7 @@ tags: [About, Archive]
   * 《持续交付》
   * 《软件测试的艺术》
 1. 奇书
-  * 《禅与摩托车维修艺术》，一本奇特的书，随手翻翻后拿书名对人吹嘘，虽然看不懂
+  * 《禅与摩托车维修艺术》，一本奇特的书，随手翻翻可以拿书名吹嘘，背后其实看不懂
   * 《参谋助手论》
 
 # Blog
