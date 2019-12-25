@@ -53,6 +53,7 @@ tags: [About, Archive]
   * 《Getting Real》
   * 《持续交付》
   * 《软件测试的艺术》
+  * [An Amateur Programmer's Blogs](https://dirtysalt.github.io/html/blogs.html)
 1. 奇书
   * 《禅与摩托车维修艺术》，一本奇特的书，随手翻翻可以拿书名吹嘘，背后其实看不懂
   * 《参谋助手论》
