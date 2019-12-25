@@ -8,7 +8,54 @@ tags: [About, Archive]
 
 # 我是谁
 
-1. 我来自地球。
+1. 住在地球，以后的事说了也不算，大爆炸之前的事
+1. Code Monkey。
+  * 行业：安防和数字电视领域的视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
+  * 领域：桌面、Web、Android、服务端、嵌入式、单片机。
+  * 玩具：C/Python/Java/PHP/C#/VB/JavaScript，Linux/Windows/Android/NUC140/Raspberry Pi, TCPIP/MPTCP/Docker/Scrapy/Redis/ZookeeperShdowSocks/Anaconda/Matplotlib, VS/QT/MingW, **《Unix程序设计艺术》(The Art of Unix Programming)**的追随者。
+  * 玩具：产品设计、项目管理、团队建设、架构设计、Coding、测试、Devops、CI/CD，持续SPI。
+1. 乒乓球
+  * 打法：右手横版，双面弧圈
+  * 底板：Stiga 145
+  * 正手：蝴蝶T05
+  * 反手：蝴蝶T80
+  * ７年前开球网积分: 1591，复出乒坛一年来战胜过1700分，哼！
+1. 撸铁
+  * 深蹲：60KG
+  * 倒蹬：180KG
+  * 硬拉：70KG
+  * 卧推：40KG
+  * 跳绳：每次２组，每组500个
+1. 小说
+  * 余华的《活着》
+  * 陈忠实的《白鹿原》
+  * 路遥的《平凡的世界》
+  * 刘震云(这家伙很厉害)的《一地鸡毛》，《故乡天下黄花》、《故乡相处流传》
+  * 刘慈欣的《三体》
+  * 卡尔维诺的《树上的男爵》
+1. 诗歌
+  * 海涅、普希金、彭斯、裴多菲、顾诚、海子，海子在抒情诗领域是白话文运动以来第一人。
+1. 社科
+  * 李宗仁、唐德刚的《李宗仁回忆录》
+  * 齐邦媛的《巨流河》
+  * 杨显惠的《夹边沟记事》
+  * 高尔泰的《寻找家园》
+  * 钱穆的《八十忆双亲 师友杂忆》
+  * 费曼的《别闹了，费曼先生》
+  * 刘瑜的《民主的细节》
+1. 科普
+  * 凡尔纳的《海底两万里》
+  * 法布尔的《天空记》
+  * 《囚徒健身》
+1. IT
+  * 《Unix程序设计艺术》
+  * 《大教堂与集市》
+  * 《Getting Real》
+  * 《持续交付》
+  * 《软件测试的艺术》
+1. 奇书
+  * 《禅与摩托车维修艺术》，一本奇特的书，随手翻翻后拿书名对人吹嘘，虽然看不懂
+  * 《参谋助手论》
 
 # Blog
 
@@ -16,4 +63,4 @@ tags: [About, Archive]
 
 1. [Github](https://Github.com)
 1. [Jekyll](http://jekyllrb.com/)
-1. [theme's documentation](https://github.com/sylhare/Type-on-Strap).
+2. [Type-on-Strap](https://github.com/sylhare/Type-on-Strap).
