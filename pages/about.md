@@ -8,7 +8,7 @@ tags: [About, Archive]
 
 # 我是谁
 
-1. 住在地球，偶尔想想大爆炸之前的家会在哪儿呢？
+1. 住在地球，偶尔回忆下大爆炸之前我家的位置
 2. Code Monkey
   * 行业：安防和数字电视领域的视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
   * 领域：桌面、Web、Android、服务端、嵌入式、单片机。
@@ -19,7 +19,7 @@ tags: [About, Archive]
   * 底板：Stiga 145
   * 正手：蝴蝶T05
   * 反手：蝴蝶T80
-  * ７年前开球网积分: 1591，复出乒坛一年来战胜过1700分
+  * ７年前开球网积分: 1591，复出一年来战胜过1700分
 1. 撸铁
   * 深蹲：60KG
   * 倒蹬：180KG
@@ -63,4 +63,4 @@ tags: [About, Archive]
 
 1. [Github](https://Github.com)
 1. [Jekyll](http://jekyllrb.com/)
-2. [Type-on-Strap](https://github.com/sylhare/Type-on-Strap).
+2. [Type-on-Strap](https://github.com/sylhare/Type-on-Strap)
