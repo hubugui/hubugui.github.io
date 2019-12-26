@@ -16,11 +16,11 @@ tags: [About, Archive]
 
 # 职业
 
-1. Code Monkey
-  * 行业：安防和数字电视领域的视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
-  * 领域：桌面、Web、Android、服务端、嵌入式、单片机。
-  * 玩具：C/Python/Java/PHP/C#/VB/JavaScript，Linux/Windows/Android/NUC140/Raspberry Pi, TCPIP/MPTCP/Docker/Scrapy/Redis/ZookeeperShdowSocks/Anaconda/Matplotlib, VS/QT/MingW, **《Unix程序设计艺术》(The Art of Unix Programming)**的追随者。
-  * 玩具：产品设计、项目管理、团队建设、架构设计、Coding、测试、Devops、CI/CD，持续SPI。
+1. Code Monkey。
+1. 行业：视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
+1. 领域：桌面、Windows、Linux、Web、Android、服务端、嵌入式、单片机。
+1. 玩具：C/Python/Java/PHP/C#/VB/JavaScript，Linux/Windows/Android/NUC140/Raspberry Pi, TCPIP/MPTCP/Docker/Scrapy/Redis/ZookeeperShdowSocks/Anaconda/Matplotlib, VS/QT/MingW, **《Unix程序设计艺术》(The Art of Unix Programming)**的追随者。
+1. 玩具：产品设计、项目管理、团队建设、架构设计、Coding、测试、Devops、CI/CD，持续SPI。
 
 # 运动
 
@@ -35,7 +35,7 @@ tags: [About, Archive]
   * 倒蹬：180KG
   * 硬拉：70KG
   * 卧推：40KG
-  * 跳绳：每次２组，每组500个
+  * 跳绳：每次2组，每组500个
 
 # 阅读
 
@@ -47,8 +47,8 @@ tags: [About, Archive]
   * 刘慈欣的《三体》
   * 卡尔维诺的《树上的男爵》
   * 金庸的《天龙八部》、《射雕英雄传》
-  * 古龙的《陆小凤》、《楚留香》。
-1. 诗歌
+  * 古龙的《陆小凤》、《楚留香》
+2. 诗歌
   * 苏东坡、陆游、海涅、普希金、彭斯、裴多菲、顾诚、海子，海子在抒情诗领域是白话文运动以来第一人。
 1. 社科
   * 李宗仁、唐德刚的《李宗仁回忆录》
@@ -84,4 +84,5 @@ tags: [About, Archive]
 
 1. [Github](https://Github.com)
 1. [Jekyll](http://jekyllrb.com/)
-2. [Type-on-Strap](https://github.com/sylhare/Type-on-Strap)
+1. [Type-on-Strap](https://github.com/sylhare/Type-on-Strap)
+1. [不蒜子统计](http://busuanzi.ibruce.info/)  
