@@ -7,9 +7,7 @@
       <img src="{{ author.avatar | relative_url }}">
     {% endif %}
     <p class="meta">
-      {% if author.name %}{{ author.name }} - {% endif %}{{ date | date: "%B %-d, %Y" }}
-      &nbsp
-      <span id="busuanzi_container_page_pv">阅读<span id="busuanzi_value_page_pv"></span>次</span>
+      {% if author.name %}{{ author.name }} - {% endif %}{{ date | date: "%B %-d, %Y" }}            
     </p>
   {%- if author.url -%}</a>{%- endif -%}
 </div>
