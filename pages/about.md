@@ -71,11 +71,12 @@ tags: [About, Archive]
   * 《持续交付》
   * 《软件测试的艺术》  
 1. 奇书
-  * 《禅与摩托车维修艺术》，一本奇特的书，随手翻翻可以拿书名吹嘘，背后其实看不懂
-  * 《参谋助手论》
+  * 《禅与摩托车维修艺术》，一本奇书，据说乔帮主挚爱，闲聊时借书名跟人吹嘘，其实看不懂
+  * 《参谋助手论》，红色内参绝学
 
 # 链接
 
+* [大刘](https://kyleliu.github.io/)
 * [An Amateur Programmer's Blogs](https://dirtysalt.github.io/html/blogs.html)
 
 # Blog
