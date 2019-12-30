@@ -20,7 +20,7 @@ tags: [About, Archive]
 1. 行业：视频编解码、流媒体，h264/h265/rtsp, ffmpeg/gstreamer。
 1. 领域：桌面、Windows、Linux、Web、Android、服务端、嵌入式、单片机。
 1. 玩具：C/Python/Java/PHP/C#/VB/JavaScript，Linux/Windows/Android/NUC140/Raspberry Pi, TCPIP/MPTCP/Docker/Scrapy/Redis/ZookeeperShdowSocks/Anaconda/Matplotlib, VS/QT/MingW, **《Unix程序设计艺术》(The Art of Unix Programming)**的追随者。
-1. 玩具：产品设计、项目管理、团队建设、架构设计、Coding、测试、Devops、CI/CD，持续SPI。
+1. 技能：产品设计、项目管理、团队建设、软件架构、Coding、测试、Devops、CI/CD，持续SPI。
 
 # 运动
 
@@ -71,11 +71,12 @@ tags: [About, Archive]
   * 《持续交付》
   * 《软件测试的艺术》  
 1. 奇书
-  * 《禅与摩托车维修艺术》，一本奇书，据说乔帮主挚爱，闲聊时借书名跟人吹嘘，其实看不懂
+  * 《禅与摩托车维修艺术》，奇书，摩托自驾游之父的途中日记，自驾游的该看看，据说还是乔帮主挚爱。书名特适合拿来吹吹，背后其实看不懂
   * 《参谋助手论》，红色内参绝学
 
 # 链接
 
+* [张作乐](https://www.douban.com/people/zelor/notes)
 * [大刘](https://kyleliu.github.io/)
 * [An Amateur Programmer's Blogs](https://dirtysalt.github.io/html/blogs.html)
 
