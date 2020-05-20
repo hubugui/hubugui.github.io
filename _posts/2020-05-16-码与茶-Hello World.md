@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 码与茶－前言				　					# Title of the page
+title: 码与茶－Hello World				　					# Title of the page
 hide_title: false                                  # Hide the title when displaying the post, but shown in lists of posts
 # feature-img: "assets/img/sample.png"              # Add a feature-image to the post
 # thumbnail: "assets/img/stb_background.png"   # Add a thumbnail image on blog view
@@ -14,9 +14,21 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-这个系列想要分享些早年间在一边挖坑、一边填坑痛苦过程中，闲暇反思后的实践，如果有几位非科班出身或刚刚投身码界的后浪们，在地铁上有耐心翻完，那就没有瞎忙活了。
+```
+#include <stdio.h>
+#include <string.h>
 
-1. [Hello World](2020/05/16/%E7%A0%81%E4%B8%8E%E8%8C%B6-%E5%89%8D%E8%A8%80.html)
+int main(int argc, char *argv[])
+{
+    int ret = 0;
+
+    printf("Hello World\n");
+
+    return ret;
+}
+```
+
+1. [Hello World]()
 1. [模块和借口]()
 1. [构建环境]()
 1. [视频解码器]()
