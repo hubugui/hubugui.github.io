@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-```
+{% highlight c linenos %}
 #include <stdio.h>
 #include <string.h>
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     return ret;
 }
-```
+{% endhighlight %}
 
 1. [Hello World]()
 1. [模块和借口]()
