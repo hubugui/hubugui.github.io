@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     if (argc > 1)
         foo = argv[1];
 
-    ret = bar(foo);
+    ret = _bar(foo);
     printf("execute %s\n", ret > 0 ? "success" : "fail");
 
     return ret > 0 ? 0 : -1;
