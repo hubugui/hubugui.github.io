@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 码与茶－Hello World				　					# Title of the page
+title: 码与茶－Hello World的习惯　					# Title of the page
 hide_title: false                                  # Hide the title when displaying the post, but shown in lists of posts
 # feature-img: "assets/img/sample.png"              # Add a feature-image to the post
 # thumbnail: "assets/img/stb_background.png"   # Add a thumbnail image on blog view
@@ -14,6 +14,15 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+软件用户分为几种类型：
+
+1. 使用者，通常字面意义上的用户。
+2. 电脑，软件的运行环境。
+3. 运维者，软件遇到故障、或需要分析某个现象的伙伴。
+4. 维护者，三个月后的自己、接手软件或帮你找bug的伙伴。
+
+开发者绝大部分的时间精力花在满足使用者和电脑，也就是功能和性能，在保障进度计划的前提下，这2项达到80分已经实属不易，所以常常冷落了运维者和维护者，她们的要求不像功能那样容易度量，现在讲解相关内容的文字有很多，比如**坏味道**，但阅读提炼之后的做什么、不做什么的技法是模仿入门，科技和人文的环境日日渐进，若无法领悟到技巧之下的自然规律，便做不到举一反三，迟早刨坑。我们要延缓夏天的流逝，让绿叶般的代码长青，到秋天后容易修复，避免冬天走向消亡。
+
 {% highlight c linenos %}
 #include <stdio.h>
 #include <string.h> /* TODO: useless include */
@@ -26,23 +35,23 @@ static int _bar(const char *foo)
 int main(int argc, char *argv[])
 {
     int ret = 0;
-    char *foo = "Hello World";
-
-    if (argc > 1)
-        foo = argv[1];
+    const char *foo = "Hello World";
 
     ret = _bar(foo);
+
     printf("execute %s\n", ret > 0 ? "success" : "fail");
 
     return ret > 0 ? 0 : -1;
 }
 {% endhighlight %}
 
-上面是功能最简单的C语言代码，控制台输出字符串**Hello World**，短短21行中也有些关隘。
+上面简短的C语言代码通过调用内部函数，在控制台输出**Hello World**。
 
 ## 1. 多余的`include`
 
-`#include <string.h>`这一行应该删除，因为代码中没有使用`<string.h>`中提供的宏、枚举、结构体、API等。
+`#include <string.h>`包含一个标准库的头文件，应该删除，因为代码中没有使用她，反而增加了编译工作。实际开发活动中冗余包含库文件也还好，她们极少改动，但那些自己编写的头文件频繁更新，导致构建时浪费时间重新编译所有包含她的文件。
+
+或许你会说我的工程文件少影响不大，但我们现在谈论的就是习惯，高质量不是做完几件事就可以达成，甚至标准也随着编程语言、技术演化的发生改变，
 
 **不用的就不该出现**也是一条遵循**KISS-Keep It Simple, Stupid!**原则的实践，由于软件是一种规模化、复杂度逐步上升的手工活动，越来越庞大，所以尽量简洁，不给维护者留下多余的负担，如果每个作者都这么做，系统趋向干净，如果纵容，面条代码像小强一样快速侵入频繁修改的函数。
 
