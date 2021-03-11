@@ -1,0 +1,67 @@
+---
+layout: post
+title: Nomad & Consul的服务健康检查                 # Title of the page
+hide_title: false                                  # Hide the title when displaying the post, but shown in lists of posts
+# feature-img: "assets/img/sample.png"              # Add a feature-image to the post
+# thumbnail: "assets/img/stb_background.png"   # Add a thumbnail image on blog view
+# color: rgb(80,140,22)                             # Add the specified color as feature image, and change link colors in post
+bootstrap: true                                   # Add bootstrap to the page
+tags: [nomad, consul]
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+* TOC
+{:toc}
+
+一直没有透彻理解Nomad中附件健康检查、重启的定时机理，翻翻Nomad代码，写得很简洁，下面记录下：
+
+#### 1. 服务不健康而重启
+
+每间隔900毫秒，调用函数[apply()](https://github.com/hashicorp/nomad/blob/v0.11.2/command/agent/consul/check_watcher.go#L80)判断是否需要重启：
+
+对应Nomad中job配置：
+
+{% highlight c linenos %}
+check {
+    address_mode = "host"
+    type     = "http"
+    port     = "PORT"
+    path     = "/"
+    interval = "5s"
+    timeout  = "2s"
+    check_restart {
+        limit = 5
+        grace = "300s"
+        ignore_warnings = false
+    }
+}
+{% endhighlight %}
+
+大概判断为代码逻辑是：
+
+{% highlight c linenos %}
+// 返回true表示该服务应立即重启， false表示需继续观察
+boolean apply(service, now)
+{
+    if (service.isHealthy()) {
+        service.unhealthyState = 0;
+        return false;
+    }
+
+    // 服务启动后的总运行时间还不长，小于配置中的grace，避免那些启动很慢的服务，快速被认为不健康
+    if (service.runningTime < service.check.check_restart.grace)
+        return false;
+
+    if (service.unhealthyState == 0)
+        service.unhealthyState = now;
+
+    // 以上面配置为例，连续5 * (5 - 1) = 20秒不健康后被重启
+    restartTime = service.unhealthyState + service.check.interval * (service.check.check_restart.limit - 1);
+    return restartTime >= now ? true : false;
+}
+{% endhighlight %}
+
+#### 2. 服务重启次数太多，重新调度
+
+**未完待续**
