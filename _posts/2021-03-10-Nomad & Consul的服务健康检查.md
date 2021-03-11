@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-一直没有透彻理解Nomad中服务的健康检查、重启以及重新调度的定时机理，翻翻GO代码，很简洁。
+一直没有透彻理解Nomad中服务的健康检查、重启以及重新调度的定时机理，翻翻v0.11.2版本代码，很简洁。
 
 以下面job为例：
 
@@ -54,9 +54,9 @@ group "foo" {
 }
 {% endhighlight %}
 
-#### 1. 服务不健康而重启
+#### 1. 服务不健康
 
-每间隔900毫秒，调用函数[apply()](https://github.com/hashicorp/nomad/blob/v0.11.2/command/agent/consul/check_watcher.go#L80)判断是否需要重启：
+每间隔900毫秒，调用函数[command/agent/consul/check_watcher.go的函数apply()](https://github.com/hashicorp/nomad/blob/v0.11.2/command/agent/consul/check_watcher.go#L80)判断是否需要重启：
 
 大概判断的C伪代码逻辑如下：
 
@@ -82,6 +82,40 @@ boolean apply(service, now)
 }
 {% endhighlight %}
 
-#### 2. 服务重启次数太多，重新调度
+#### 2. 任务重启
+
+通过[client/allocrunner/taskrunner/task_runner.go的函数shouldRestart()](https://github.com/hashicorp/nomad/blob/v0.11.2/client/allocrunner/taskrunner/task_runner.go#L689)调用[client/allocrunner/taskrunner/restarts/restarts.go的函数GetState()](https://github.com/hashicorp/nomad/blob/v0.11.2/client/allocrunner/taskrunner/restarts/restarts.go#L133)，伪代码逻辑如下：
+
+{% highlight c linenos %}
+
+// 返回true表示该服务应立即重启，false表示需继续观察
+int GetState(restartTracker, now)
+{
+    // 任务正常则退出
+    if (!restartTracker.failure) {
+        return "", 0;
+    }
+
+    // 如果跟踪器本轮的运行时间已经超过job中配置
+    if (now >= restartTracker.startTime + restartTracker.restart.Interval)) {
+        restartTracker.restartCount = 0;
+        restartTracker.startTime = 0;
+    }
+
+    // 重启次数已经超过job中配置
+    if（restartTracker.restartCount > restartTracker.restart.Attempts) {
+        if (restartTracker.restart.Attempts == "fail") {
+            // 不用重启了，等待重新调度
+            return structs.TaskNotRestarting, 0;
+        } else {
+            // 重启吧，在getDelay()之后
+            return structs.TaskRestarting, restartTracker.getDelay()
+        }        
+    }
+}
+
+{% endhighlight %}
+
+#### 3. 任务重新调度
 
 **未完待续**
