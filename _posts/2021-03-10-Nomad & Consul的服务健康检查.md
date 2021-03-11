@@ -61,7 +61,7 @@ group "foo" {
 大概判断的C伪代码逻辑如下：
 
 {% highlight c linenos %}
-// 返回true表示该服务应立即重启， false表示需继续观察
+// 返回true表示该服务应立即重启，false表示需继续观察
 boolean apply(service, now)
 {
     if (service.isHealthy()) {
@@ -69,7 +69,7 @@ boolean apply(service, now)
         return false;
     }
 
-    // 服务启动后的总运行时间还不长，小于配置中的grace，避免那些启动很慢的服务，快速被认为不健康
+    // 服务第一次启动后的总运行时间还短，小于grace配置。这是为避免那些慢启动的服务，还未做好准备就被视为不健康而重启，陷入死循环
     if (service.runningTime < service.check.check_restart.grace)
         return false;
 
