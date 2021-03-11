@@ -14,31 +14,51 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-一直没有透彻理解Nomad中附件健康检查、重启的定时机理，翻翻Nomad代码，写得很简洁，下面记录下：
+一直没有透彻理解Nomad中服务的健康检查、重启以及重新调度的定时机理，翻翻GO代码，很简洁。
+
+以下面job为例：
+
+{% highlight c linenos %}
+group "foo" {
+    restart {
+        interval = "30m"
+        attempts = 3
+        delay    = "15s"
+        mode     = "fail"
+    }
+    
+    reschedule {
+        delay          = "30s"
+        delay_function = "exponential"
+        max_delay      = "1h"
+        unlimited      = true
+    }
+
+    task "bar" {
+        service {
+            check {
+                address_mode = "host"
+                type     = "http"
+                port     = "PORT"
+                path     = "/"
+                interval = "5s"
+                timeout  = "2s"
+                check_restart {
+                    limit = 5
+                    grace = "300s"
+                    ignore_warnings = false
+                }
+            }
+        }
+    }
+}
+{% endhighlight %}
 
 #### 1. 服务不健康而重启
 
 每间隔900毫秒，调用函数[apply()](https://github.com/hashicorp/nomad/blob/v0.11.2/command/agent/consul/check_watcher.go#L80)判断是否需要重启：
 
-对应Nomad中job配置：
-
-{% highlight c linenos %}
-check {
-    address_mode = "host"
-    type     = "http"
-    port     = "PORT"
-    path     = "/"
-    interval = "5s"
-    timeout  = "2s"
-    check_restart {
-        limit = 5
-        grace = "300s"
-        ignore_warnings = false
-    }
-}
-{% endhighlight %}
-
-大概判断为代码逻辑是：
+大概判断的C伪代码逻辑如下：
 
 {% highlight c linenos %}
 // 返回true表示该服务应立即重启， false表示需继续观察
@@ -58,7 +78,7 @@ boolean apply(service, now)
 
     // 以上面配置为例，连续5 * (5 - 1) = 20秒不健康后被重启
     restartTime = service.unhealthyState + service.check.interval * (service.check.check_restart.limit - 1);
-    return restartTime >= now ? true : false;
+    return restartTime <= now ? true : false;
 }
 {% endhighlight %}
 
