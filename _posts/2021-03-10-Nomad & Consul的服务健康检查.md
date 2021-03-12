@@ -26,7 +26,7 @@ group "foo" {
         delay    = "15s"
         mode     = "fail"
     }
-    
+
     reschedule {
         delay          = "30s"
         delay_function = "exponential"
@@ -69,7 +69,8 @@ boolean apply(service, now)
         return false;
     }
 
-    // 服务第一次启动后的总运行时间还短，小于grace配置。这是为避免那些慢启动的服务，还未做好准备就被视为不健康而重启，陷入死循环
+    // 服务第一次启动后的总运行时间还短，小于grace配置。
+    // 这是为避免那些慢启动的服务，还未做好准备就被视为不健康而重启，陷入死循环。
     if (service.runningTime < service.check.check_restart.grace)
         return false;
 
@@ -105,7 +106,7 @@ int GetState(restartTracker, now)
 
     // 重启次数已经超过job中配置
     if（restartTracker.restartCount > restartTracker.restart.Attempts) {
-        if (restartTracker.restart.Attempts == "fail") {
+        if (restartTracker.restart.Mode == "fail") {
             // 不用重启了，等待重新调度
             return structs.TaskNotRestarting, 0;
         } else {
