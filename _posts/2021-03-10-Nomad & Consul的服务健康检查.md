@@ -99,8 +99,9 @@ int GetState(restartTracker, now)
     // 如果跟踪器本轮的运行时间已经超过job中配置
     if (now >= restartTracker.startTime + restartTracker.restart.Interval)) {
         restartTracker.restartCount = 0;
-        restartTracker.startTime = 0;
+        restartTracker.startTime = now;
     }
+    restartTracker.restartCount++;
 
     // 重启次数已经超过job中配置
     if（restartTracker.restartCount > restartTracker.restart.Attempts) {
@@ -108,7 +109,7 @@ int GetState(restartTracker, now)
             // 不用重启了，等待重新调度
             return structs.TaskNotRestarting, 0;
         } else {
-            // 重启吧，在getDelay()之后
+            // 重启吧，在getDelay()时间点之后
             return structs.TaskRestarting, restartTracker.getDelay()
         }        
     }
