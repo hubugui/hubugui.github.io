@@ -92,7 +92,10 @@ boolean apply(service, now)
 
 {% highlight c linenos %}
 
-// 返回true表示该服务应立即重启，false表示需继续观察
+// 返回值
+// ""：服务正常
+// structs.TaskNotRestarting：不用重启，等待重新调度
+// structs.TaskRestarting：指定时间后重启
 int GetState(restartTracker, now)
 {
     // 任务正常则退出
@@ -117,6 +120,8 @@ int GetState(restartTracker, now)
             return structs.TaskRestarting, restartTracker.getDelay();
         }        
     }
+
+    return structs.TaskRestarting, restartTracker.getDelay();
 }
 
 {% endhighlight %}
