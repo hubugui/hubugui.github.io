@@ -74,11 +74,14 @@ boolean apply(service, now)
     if (service.runningTime < service.check.check_restart.grace)
         return false;
 
+    // 记录第1次发现不健康的时间点
     if (service.unhealthyState == 0)
         service.unhealthyState = now;
 
     // 以上面配置为例，连续5 * (5 - 1) = 20秒不健康后被重启
-    restartTime = service.unhealthyState + service.check.interval * (service.check.check_restart.limit - 1);
+    restartTime = service.unhealthyState 
+                + service.check.interval * (service.check.check_restart.limit - 1);
+
     return restartTime <= now ? true : false;
 }
 {% endhighlight %}
@@ -93,15 +96,15 @@ boolean apply(service, now)
 int GetState(restartTracker, now)
 {
     // 任务正常则退出
-    if (!restartTracker.failure) {
+    if (!restartTracker.failure)
         return "", 0;
-    }
 
     // 如果跟踪器本轮的运行时间已经超过job中配置
     if (now >= restartTracker.startTime + restartTracker.restart.Interval)) {
         restartTracker.restartCount = 0;
         restartTracker.startTime = now;
     }
+
     restartTracker.restartCount++;
 
     // 重启次数已经超过job中配置
@@ -111,7 +114,7 @@ int GetState(restartTracker, now)
             return structs.TaskNotRestarting, 0;
         } else {
             // 重启吧，在getDelay()时间点之后
-            return structs.TaskRestarting, restartTracker.getDelay()
+            return structs.TaskRestarting, restartTracker.getDelay();
         }        
     }
 }
