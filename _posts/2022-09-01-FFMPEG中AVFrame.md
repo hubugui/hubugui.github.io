@@ -20,9 +20,9 @@ ffmpeg解码涉及多个封装完备的源文件，核心数据是**AVFrame**，
 
 # 2. 解码
 
-先看看解码的组成：
+先看看解码的组成，BTW，找到一个超赞的[国风调色板](http://color.xunmi.cool)，用来画图：
 
-![](/assets/img/post/2022-09-01-ffmpeg-avframe.png)
+![](/assets/img/post/2022-09-01-ffmpeg-avframe/ffmpeg_decoder.png)
 
 大概是ffmpeg.c或自己开发的相关应用，先调用`avcodec_alloc_context3`
 
