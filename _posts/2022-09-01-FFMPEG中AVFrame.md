@@ -20,7 +20,7 @@ ffmpeg解码涉及多个封装完备的源文件，核心数据是**AVFrame**，
 
 # 2. 解码
 
-先看看解码的组成，BTW，找到一个超赞的[国风调色板](http://color.xunmi.cool)，用来画图：
+先看看解码的组成，BTW，画图时找到一个超赞的[国风调色板](http://color.xunmi.cool)：
 
 ![](/assets/img/post/2022-09-01-ffmpeg-avframe/ffmpeg_decoder.png)
 
