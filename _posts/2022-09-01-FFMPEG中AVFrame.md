@@ -14,9 +14,9 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-# 1. 背景
+参考[2022-09-01-FFMPEG编解码器](https://hubugui.github.io/2022/09/01/FFMPEG%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8.html)
 
-参考[2022-09-01-FFMPEG编解码器]()
+# 1. 背景
 
 ffmpeg编解码涉及很多源文件，核心数据是**AVFrame**，本文将从视频解码入手，尝试弄清楚代码如何围绕着**AVFrame**完成初始化、编码或解码、使用以及生命周期，就可以梳理出大致脉络。
 
