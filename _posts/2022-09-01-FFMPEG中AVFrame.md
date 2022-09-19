@@ -91,7 +91,24 @@ static int decode(AVCodecContext *avctx, AVFrame *frame, int *got_frame, AVPacke
 
 # 3. AVFrame
 
-`AVFrame`是FFMPEG中解码后的每帧图像或声音的基本单元。
+`AVFrame`是FFMPEG中解码后每帧图像或声音的基本单元，解码时先调用**av_frame_alloc**分配**AVFrame**实例，此时并没有为图像或声音数据分配空间，再通过**avcodec_receive_frame**传给解码器，解码器负责将解码后的图像或声音数据，关联到这个实例。
+
+## 3.1. av_frame_alloc
+
+{% highlight c linenos %}
+AVFrame *av_frame_alloc(void)
+{
+    AVFrame *frame = av_mallocz(sizeof(*frame));
+
+    if (!frame)
+        return NULL;
+
+    frame->extended_data = NULL;
+    get_frame_defaults(frame);
+
+    return frame;
+}
+{% endhighlight %}
 
 ## 3.3. 计算LineSize
 
