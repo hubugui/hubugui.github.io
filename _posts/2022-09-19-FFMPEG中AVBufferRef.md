@@ -18,12 +18,7 @@ excerpt_separator: <!--more-->
 
 # 1. 背景
 
-h264dec.c中output_frame，通过frame.c中的av_frame_ref，把H264Context中的某个H264Picture的AVFrame，复制给应用这传入的AVFrame *src。
-
-av_frame_ref发现src是null时，主动用av_frame_get_buffer()->get_video_buffer()来给src->data做初始化，真实的解码后图像空间放在src->buf中，然后src->data数组各通道被赋予src->buf空间的不同位置指针。此时通过av_frame_copy()->frame_copy_video()->av_image_copy()复制解码后图像到src->data。
-
-1. 应用src->buf:dst->buf[i] = av_buffer_ref(src->buf[i]);
-1. 复制src->data数组的图像空间地址到dst-data：memcpy(dst->data,     src->data,     sizeof(src->data));
+AVBufferRef是一个支持引用计数的结构Codec相关核心结构，通过引用计数
 
 # 2. 解码
 
