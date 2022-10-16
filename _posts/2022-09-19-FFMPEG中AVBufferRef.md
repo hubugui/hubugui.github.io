@@ -24,7 +24,7 @@ excerpt_separator: <!--more-->
 
 # 2. 背景
 
-翻FFMPEG代码时经常看到[AVBufferRef](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavutil/buffer.h#L82)，压缩数据[AVPacket](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavcodec/packet.h#L350)和未压缩数据[AVFrame](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavutil/frame.h#L303)都用它记录实际数据，在不熟悉代码情况下， 要分析数据在生产、使用、消费等各个环节的异常，往往可以通过数据的流转关系，找到她在各个环节分别由谁分配、谁使用、谁释放，从而在脑海中完成一条输入、处理、输出的拼图。
+翻FFMPEG代码时经常看到[AVBufferRef](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavutil/buffer.h#L82)，压缩数据[AVPacket](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavcodec/packet.h#L350)和未压缩数据[AVFrame](https://github.com/FFmpeg/FFmpeg/blob/ccfdef79b132bef49f4654266d5d3da8d1deb305/libavutil/frame.h#L303)都用它记录实际数据，在不熟悉代码情况下， 要分析数据在生产、使用、消费等各个环节的异常，比如RTSP视频硬件解码，往往可以通过搜索关键数据的流转关系，找到各个环节分别由谁分配、谁使用、谁释放，从而在脑海中完成一条输入、处理、输出的拼图。
 
 # 3. 结构体定义
 
@@ -64,7 +64,7 @@ AVBuffer中**refcount**是一个原子变量，保障线程安全。FFMPEG中有
 
 ## 4.1. AVBufferRef *av_buffer_alloc(size)
 
-通过**av_malloc**申请指定长度的内存空间，并通过**av_buffer_create**传入该空间、空间长度、free释放data的API，来创建AVBufferRef并返回。
+通过**av_malloc**申请指定长度的内存空间，并通过**av_buffer_create**传入该空间、空间长度、释放data的函数指针，来创建AVBufferRef并返回。
 
 {% highlight c linenos %}
 AVBufferRef *av_buffer_alloc(buffer_size_t size)
@@ -84,22 +84,20 @@ AVBufferRef *av_buffer_alloc(buffer_size_t size)
 }
 {% endhighlight %}
 
-## 4.2. AVBufferRef *av_buffer_create(uint8_t *data, buffer_size_t size,
-                              void (*free)(void *opaque, uint8_t *data),
-                              void *opaque, int flags)
+## 4.2. AVBufferRef *av_buffer_create(uint8_t *data, buffer_size_t size, void (*free)(void *opaque, uint8_t *data), void *opaque, int flags)
 
-使用**av_malloc***系列函数创建AVBuffer和AVBufferRef，他们的data、size都等于传入的**data**和**size**变量。flags可指定为AV_BUFFER_FLAG_READONLY表示只读。**函数返回的AVBufferRef引用计数器是1**。
+使用**av_malloc***系列函数创建AVBuffer和AVBufferRef，他们的data、size都等于传入的**data**和**size**变量。flags可指定为AV_BUFFER_FLAG_READONLY表示只读。**函数返回时AVBufferRef引用计数器是1**。
 
-![AVBufferRef、AVBuffer和AVBufferRef->data的三者关系](/assets/img/post/2022-09-19-ffmpeg-avbufferref/ffmpeg-avbufferref.png)
+![AVBufferRef、AVBuffer和AVBufferRef->data的三者关系](/assets/img/post/2022-09-19-ffmpeg-avbufferref/avbufferref.png)
 
 通过av_buffer_create()和av_buffer_alloc()可以看出AVBufferRef、AVBuffer和AVBufferRef->data的三者关系：
 
-1. AVBufferRef/AVBuffer没有强制分配在连续的内存空间。
+1. AVBufferRef结构的第1个成员变量就是AVBuffer，同时他们没有强制分配在连续的内存空间。
 2. Data可以在内存，也可以在其他设备地址空间。
 
 ## 4.3. AVBufferRef *av_buffer_ref(AVBufferRef *buf)
 
-和av_buffer_unref()一起使用，**av_buffer_ref()**分配一个新的AVBufferRef，各个成员变量的值完全等于**buf**，并通过原子操作API给**buf->buffer**记录的AVBuffer引用计数器加1。
+常常和av_buffer_unref()一起使用，每次**av_buffer_ref()**都会在内存中分配一个新的AVBufferRef，各个成员变量的值完全等于**buf**，并通过原子操作API给**buf->buffer**记录的AVBuffer引用计数器加1。如果最后没有成对的**av_buffer_unref()调用**会产生泄露。
 
 ## 4.4. void av_buffer_unref(AVBufferRef *buf)
 
