@@ -86,7 +86,7 @@ AVBufferRef *av_buffer_alloc(buffer_size_t size)
 
 ## 4.2. AVBufferRef *av_buffer_create(uint8_t *data, buffer_size_t size, void (*free)(void *opaque, uint8_t *data), void *opaque, int flags)
 
-使用**av_malloc***系列函数创建AVBuffer和AVBufferRef，他们的data、size都等于传入的**data**和**size**变量。flags可指定为AV_BUFFER_FLAG_READONLY表示只读。**函数返回时AVBufferRef引用计数器是1**。
+使用**av_malloc***系列函数创建AVBuffer和AVBufferRef，他们的data、size都等于传入的**data**和**size**变量。**free**是释放data的回调函数，如果没有传入会使用内部默认实现，最后调用av_free()。**flags** 可指定为AV_BUFFER_FLAG_READONLY表示只读。**函数返回时AVBufferRef引用计数器是1**。
 
 ![AVBufferRef、AVBuffer和AVBufferRef->data的三者关系](/assets/img/post/2022-09-19-ffmpeg-avbufferref/avbufferref.png)
 
@@ -112,4 +112,4 @@ AVBufferRef *av_buffer_alloc(buffer_size_t size)
 
 ## 4.6. int av_buffer_make_writable(AVBufferRef **pbuf)
 
-当**pbuf**不可写时重新申请一个AVBufferRef和其指向的AVBuffer、data空间，将***pbuf->data**数据复制到新的空间，最后让*pbuf等于这个新分配的AVBufferRef，完成一次**克隆**。需要注意的是，只针对默认的内存中分配data和默认的free释放API。
+当**pbuf**不可写时重新申请一个AVBufferRef和其指向的AVBuffer、data空间，将pbuf->data数据复制到新的空间，最后让*pbuf等于这个新分配的AVBufferRef，完成一次**克隆**。需要注意的是，只针对默认的内存中分配data和默认的free释放API。
