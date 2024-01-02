@@ -44,6 +44,7 @@ ret等于SOCKET_ERROR，error等于WSAEOPNOTSUPP(10045)，chatgpt也给不出有
 #define FIONBIO         _IOW('f', 126, u_long) /* set/clear non-blocking i/o */
 {% endhighlight %}
 
+
 2. mingw中**winsock2.h**定义：
 
 {% highlight c linenos %}
