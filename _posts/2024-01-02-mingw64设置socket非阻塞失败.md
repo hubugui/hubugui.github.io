@@ -1,6 +1,6 @@
 ---
 layout: post
-title: mingw64环境socket设置非阻塞失败                               # Title of the page
+title: mingw64设置socket非阻塞失败                               # Title of the page
 hide_title: false                                   # Hide the title when displaying the post, but shown in lists of posts
 # feature-img: "assets/img/sample.png"              # Add a feature-image to the post
 # thumbnail: "assets/img/stb_background.png"        # Add a thumbnail image on blog view
@@ -25,9 +25,9 @@ if (ret) {
 }
 {% endhighlight %}
 
-ret等于SOCKET_ERROR，error等于WSAEOPNOTSUPP(10045)，chatgpt也给不出有效信息。找到[0x8004667E is what you get](https://stackoverflow.com/a/16185001/4065645)，试试真好了，看着是mingw中宏定义`FIONBIO`和原生的不同。
+ret等于SOCKET_ERROR，error等于WSAEOPNOTSUPP(10045)，chatgpt给不出有效信息。找到[0x8004667E is what you get](https://stackoverflow.com/a/16185001/4065645)，试试真好了，看着是mingw中宏定义`FIONBIO`和原生的不同。
 
-1. Windows原生**winsock2.h**定义：
+### Windows原生winsock2.h定义
 
 {% highlight c linenos %}
 #define IOCPARM_MASK    0x7f            /* parameters must be < 128 bytes */
@@ -44,8 +44,7 @@ ret等于SOCKET_ERROR，error等于WSAEOPNOTSUPP(10045)，chatgpt也给不出有
 #define FIONBIO         _IOW('f', 126, u_long) /* set/clear non-blocking i/o */
 {% endhighlight %}
 
-
-2. mingw中**winsock2.h**定义：
+### mingw中winsock2.h定义
 
 {% highlight c linenos %}
 #define IOCPARM_MASK 0x7f
